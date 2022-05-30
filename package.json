@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "fuels": "^0.6.0"
-  },
-  "devDependencies": {
-    "typechain": "^8.0.0",
-    "typechain-target-fuels": "^0.6.0"
-  }
-}
