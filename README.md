@@ -14,9 +14,9 @@ fuel-oracle/
 ├── oracle_lib
 |    └── ABI and structs for the Oracle contract
 ├── src
-|    └── Oracle implementation
+|    └── Oracle contract
 ├── tests
-|    └── Oracle implementation testing
+|    └── Oracle contract testing
 └── README.md
 ```
 
