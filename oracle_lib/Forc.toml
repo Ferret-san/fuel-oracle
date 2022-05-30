@@ -1,0 +1,6 @@
+[project]
+name = "oracle_lib"
+authors = ["dferrer"]
+entry = "lib.sw"
+license = "Apache-2.0"
+

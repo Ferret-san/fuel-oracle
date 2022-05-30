@@ -1,11 +1,8 @@
-contract;
+script;
 
-abi MyContract {
-    fn test_function() -> bool;
-}
+use oracle_lib::*;
 
-impl MyContract for Contract {
-    fn test_function() -> bool {
-        true
-    }
+fn main() {
+    let oracle = abi(Oracle, 0x5f446f9f5005198866f7e04e5f49612d08ddae27f4ae0e9d5f6823337608c3eb);
+    oracle.create_request(0x0000000000000000000000000000000000000000000000000000000000000001, 0x0000000000000000000000000000000000000000000000000000000000000001, TypeEnum::Number);
 }

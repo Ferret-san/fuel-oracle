@@ -2,7 +2,7 @@ contract;
 
 use std::{
     address::Address,
-    assert::{require},
+    assert::require,
     chain::auth::{AuthError, Sender, msg_sender},
     hash::sha256,
     logging::log,
@@ -11,24 +11,12 @@ use std::{
     storage::{get, store}
 };
 
-abi Oracle {
-    fn create_request(api_url: b256, key: b256, value_type: TypeEnum);
-    fn update_request(id: u64, value_retrieved: b256);
-    fn get_answer(id: u64) -> UpdatedRequest;
-}
+use oracle_lib::*;
 
 const TOTAL_ORACLE_COUNT = 3;
 
 pub enum Errors {
     InvalidOracle: (),
-}
-
-pub enum TypeEnum {
-    Unanswered: (),
-    Number: u64,
-    String: b256, // no string literals in sway yet
-    Bool: bool,
-    Hash: b256,
 }
 
 // Defines an API request
@@ -37,15 +25,6 @@ pub struct Request {
     api_url: b256,
     key: b256,
     value_type: TypeEnum,
-}
-
-// Event triggered when the nodes have arrived to a result
-pub struct UpdatedRequest {
-    id: u64,
-    api_url: b256,
-    key: b256,
-    value_type: TypeEnum,
-    value: b256,
 }
 
 storage {
@@ -84,10 +63,7 @@ impl Oracle for Contract {
 
         // check the message sender is one of the three oracles
         let is_one_of_signers = match sender {
-            0x6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e => true,
-            0x54944e5b8189827e470e5a8bacfc6c3667397dc4e1eef7ef3519d16d6d6c6610 => true,
-            0xe10f526b192593793b7a1559a391445faba82a1d669e3eb2dcd17f9c121b24b1 => true,
-            _ => false,
+            0x6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e => true, 0x54944e5b8189827e470e5a8bacfc6c3667397dc4e1eef7ef3519d16d6d6c6610 => true, 0xe10f526b192593793b7a1559a391445faba82a1d669e3eb2dcd17f9c121b24b1 => true, _ => false, 
         };
 
         // revert if the message sender is not part of the quorum
@@ -106,13 +82,8 @@ impl Oracle for Contract {
             store(answer_storage_slot, value_retrieved);
 
             // list of hard coded oracles to go through
-            let oracles = [
-                0x6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e,
-                0x54944e5b8189827e470e5a8bacfc6c3667397dc4e1eef7ef3519d16d6d6c6610,
-                0xe10f526b192593793b7a1559a391445faba82a1d669e3eb2dcd17f9c121b24b1
-            ];
+            let oracles = [0x6b63804cfbf9856e68e5b6e7aef238dc8311ec55bec04df774003a2c96e0418e, 0x54944e5b8189827e470e5a8bacfc6c3667397dc4e1eef7ef3519d16d6d6c6610, 0xe10f526b192593793b7a1559a391445faba82a1d669e3eb2dcd17f9c121b24b1];
 
-            
             // check if quorum has been reched
             let mut current_consensus = 0;
             let mut counter = 0;
@@ -122,16 +93,12 @@ impl Oracle for Contract {
 
                 if answer == value_retrieved {
                     current_consensus = current_consensus + 1;
-                    if(current_consensus >= 2) {
+                    if (current_consensus >= 2) {
                         // get request for the given id
                         let storage_slot = sha256((REQUEST_DOMAIN_SEPARATOR, id));
                         let request = get::<Request>(storage_slot);
                         log(UpdatedRequest {
-                            id: request.id,
-                            api_url: request.api_url,
-                            key: request.key,
-                            value_type: request.value_type,
-                            value: value_retrieved,
+                            id: request.id, api_url: request.api_url, key: request.key, value_type: request.value_type, value: value_retrieved, 
                         })
                     }
                 }

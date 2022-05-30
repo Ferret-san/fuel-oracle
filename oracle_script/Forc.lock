@@ -3,15 +3,15 @@ name = 'core'
 dependencies = []
 
 [[package]]
-name = 'fuel-oracle'
+name = 'oracle_lib'
+dependencies = ['std git+https://github.com/fuellabs/sway?tag=v0.14.4#b067a7dd64b26bd763eca268fef3849c2c77028d']
+
+[[package]]
+name = 'oracle_script'
 dependencies = [
     'oracle_lib',
     'std git+https://github.com/fuellabs/sway?tag=v0.14.4#b067a7dd64b26bd763eca268fef3849c2c77028d',
 ]
-
-[[package]]
-name = 'oracle_lib'
-dependencies = ['std git+https://github.com/fuellabs/sway?tag=v0.14.4#b067a7dd64b26bd763eca268fef3849c2c77028d']
 
 [[package]]
 name = 'std'
