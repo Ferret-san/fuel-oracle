@@ -1,4 +1,4 @@
-# Sway based Oracle for the FuelVM
+# :palm_tree: :crystal_ball: Oracle written in Sway for the FuelVM :palm_tree: :crystal_ball:
 
 ## Overview
 
